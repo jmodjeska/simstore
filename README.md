@@ -17,6 +17,7 @@ Arguments represent max/min values. Actual values are randomized in runtime.
 :min_stock_per_item    
 :max_stock_per_item    
 :unique_items          
+:date
 ```
 
 
