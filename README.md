@@ -8,7 +8,7 @@ store.populate_stock    #=> Creates an inventory that can be sold
 store.run_business_day  #=> Simulate a day's sales
 store.report_sales      #=> Return sales/bestseller report in HTML format
 ```
-Other methods are accessible, as demonstrated in `bestseller.rb`.
+Other methods are accessible, as demonstrated in [bestseller.rb](https://github.com/jmodjeska/simstore/blob/master/scripts/bestseller.rb).
 
 ## Optional configuration arguments
 Arguments represent max/min values. Actual values are randomized in runtime.
