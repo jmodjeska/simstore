@@ -1,7 +1,7 @@
 # SimStore
 A simulated bookstore project for my Ruby class. Uses simple randomization to generate inventory, fake sales, and sales reports, including a Bestseller List.
 
-# Usage
+## Usage
 ```
 store = Simstore.new    #=> Creates a new store instance
 store.populate_stock    #=> Creates an inventory that can be sold
