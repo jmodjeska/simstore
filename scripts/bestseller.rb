@@ -63,8 +63,7 @@ end
 
 def cat_bestsellers(arr)
   arr.map do |tr|
-    sprintf("#%-02s %s by %s (SKU: %s) \n    Sold %s for %04s total revenue \n",
-      tr[0], tr[3], tr[4], tr[1], tr[2], tr[5] )
+    sprintf("#%-02s %s by %s (SKU: %s) \n    Sold %s for $%.2f total \n", *tr )
   end.join("\n")
 end
 
