@@ -8,7 +8,17 @@ bundle install
 ```
 
 ## Configuration
-Edit `config/config.yml` to adjust the variables that control the store's configuration. The `db_name` variable should remain empty unless you want to create/use a specific database file.
+Edit `config/config.yml` to adjust the variables that control the store's configuration. The `db_name` variable should remain empty unless you want to create/use a specific database file. Min/max options represent upper and lower bounds; actual values are randomized in runtime.
+```
+:max_daily_transactions: 800
+:min_stock_per_item: 3
+:max_stock_per_item: 47
+:max_price: 100
+:unique_items: 100
+:vendors: 5
+:employees: 6
+:db_name:
+```
 
 ## Usage
 #### Store Construction and Initial Setup
@@ -26,17 +36,4 @@ store.populate_transactions  #=> Simulates a day's sales
 #### Reporting
 ```
 TODO: Add Reporting Instructions
-```
-
-## Optional configuration arguments
-Min/max options represent upper and lower bounds, and actual values are randomized in runtime.
-```
-:max_daily_transactions: 800
-:min_stock_per_item: 3
-:max_stock_per_item: 47
-:max_price: 100
-:unique_items: 100
-:vendors: 5
-:employees: 6
-:db_name:
 ```
