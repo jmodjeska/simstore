@@ -22,15 +22,20 @@ Edit `config/config.yml` to adjust the variables that control the store's config
 
 ## Usage
 #### Store Construction and Initial Setup
+Constuct and populate a store, and run a day's sales:
 ```
 store = Simstore.new         #=> Creates a new store instance
 store.populate_everything    #=> Builds all required lists, and simulates the first day's transactions
 ```
-In lieu of `populate_everything` you can populate lists individually if you choose:
+Run additional days' sales:
 ```
-store.populate_vendors       #=> Builds vendor list
-store.populate_products      #=> Builds product inventory
-store.populate_transactions  #=> Simulates a day's sales
+store.update_date(new_date in mm-dd-yyyy format)
+store.populate_transactions
+```
+In lieu of `populate_everything` you can (re-)populate lists individually for fun and profit. The following syntax works for `employees`, `vendors`, `products`, and `transactions`:
+```
+store.clean_table("employees") #=> Fire all existing employees
+store.populate_employees       #=> Get some new employees
 ```
 
 #### Reporting
