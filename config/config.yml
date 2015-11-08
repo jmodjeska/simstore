@@ -3,28 +3,7 @@ defaults:
   :min_stock_per_item: 3
   :max_stock_per_item: 47
   :unique_items: 100
-
-bestseller_headers:
-  - Position
-  - SKU
-  - Total Sold
-  - Title
-  - Author
-  - Revenue
-
-transaction_headers:
-  - Date/Time
-  - SKU
-  - Title
-  - Author
-  - Sale Price
-  - Result
-
-raw_html: >
-  <title>SimStore Sales Report</title>
-  <link rel="stylesheet" href="http://yui.yahooapis.com/pure/0.6.0/pure-min.css">
-  <body style="margin: 20px;"><h1>SimStore Sales Report for [-*DATE*-]</h1>
-  <h2>Bestseller List</h2><table class="pure-table pure-table-bordered">
-  <thead>[-*B_HEADERS*-]</thead><tbody>[-*BESTSELLERS*-]</tbody></table>
-  <h2>Sales Report</h2><table class="pure-table pure-table-bordered">
-  <thead>[-*T_HEADERS*-]</thead><tbody>[-*TRANSACTIONS*-]</tbody></table>
+  :vendors: 5
+  :employees: 6
+  :max_price: 100
+  :db_name:
