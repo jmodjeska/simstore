@@ -8,7 +8,7 @@ bundle install
 ```
 
 ## Configuration
-Edit `config/config.yml` to adjust the variables that control the store's configuration. The `db_name` variable should remain empty unless you want to create/use a specific database file. Min/max options represent upper and lower bounds; actual values are randomized in runtime.
+Edit `config/config.yml` to adjust the variables that control the store's configuration, or pass configuration options as arguments to `simstore.rb` in a hash. The `db_name` variable should remain empty unless you want to create/use a specific database file. Min/max options represent upper and lower bounds; actual values are randomized in runtime.
 ```
 :max_daily_transactions: 800
 :min_stock_per_item: 3
@@ -22,10 +22,14 @@ Edit `config/config.yml` to adjust the variables that control the store's config
 
 ## Usage
 #### Store Construction and Initial Setup
-Constuct and populate a store, and run a day's sales:
+Constuct and populate a store, and run a day's sales using config values assigned in `config.yml`:
 ```
 store = Simstore.new         #=> Creates a new store instance
 store.populate_everything    #=> Builds all required lists, and simulates the first day's transactions
+```
+Construct and populate a store, overriding some of the default config options:
+```
+store = Simstore.new( :max_daily_transactions => 200, :db_name => 'jeremy.db' )
 ```
 Run additional days' sales:
 ```
