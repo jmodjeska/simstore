@@ -43,7 +43,7 @@ Edit `config/config.yml` to adjust the variables that control the store's config
 :db_name:
 ```
 
-#### Reporting
+## Reporting
 ```
 TODO: Add Reporting Instructions
 ```
