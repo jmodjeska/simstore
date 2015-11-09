@@ -1,6 +1,8 @@
 $LOAD_PATH.unshift(File.dirname(__FILE__))
 require 'faker'
 
+# Build things that a store will need on a contract basis
+
 module Contract
 
   def setup_vendor

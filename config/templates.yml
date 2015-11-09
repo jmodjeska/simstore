@@ -1,0 +1,31 @@
+common_header: >
+  <title>SimStore Report</title>
+  <link rel="stylesheet" href="http://yui.yahooapis.com/pure/0.6.0/pure-min.css">
+  <body style="margin: 20px;">
+
+sales_report: >
+  <h1>SimStore Sales Report for [-*DATE*-]</h1>
+  <h2>Sales Report</h2><table class="pure-table pure-table-bordered">
+  <thead>[-*HEADERS*-]</thead><tbody>[-*TABLE_CONTENT*-]</tbody></table>
+
+sales_headers:
+  - Date/Time
+  - SKU
+  - Title
+  - Author
+  - Sale Price
+  - Employee Name
+  - Result
+
+bestseller_report: >
+  <h1>SimStore Bestseller List for [-*DATE*-]</h1>
+  <h2>Bestseller List</h2><table class="pure-table pure-table-bordered">
+  <thead>[-*HEADERS*-]</thead><tbody>[-*TABLE_CONTENT*-]</tbody></table>
+
+bestseller_headers:
+  - Position
+  - Title
+  - Author
+  - Product ID
+  - Quantity Sold
+  - Total Revenue

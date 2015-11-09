@@ -21,15 +21,17 @@ module Validator
     if @db_name && !(File.exist?("../data/#{@db_name}.db"))
       warn "Warning: database #{@db_name}.db doesn't exist. Creating."
     end
+    @store_name = @db_name
     @db_name = "../data/#{@db_name}.db"
   end
 
-  def validate_date_arguments
+  def validate_date_argument(date)
     begin
-      @date = ( @date.instance_of?(Time) ) ? @date : Time.parse(@date)
+      date = ( date.instance_of?(Time) ) ? date : Time.parse(date)
     rescue NoMethodError, TypeError
-      raise ArgumentError.new("invalid date: #{@date}")
+      raise ArgumentError.new("invalid date: #{date}")
     end
+    return date
   end
 
   def validate_range_arguments

@@ -1,5 +1,8 @@
 require 'active_record'
 require 'sqlite3'
+require 'yaml'
+
+# Build and destroy stores
 
 module Constructor
   SCHEMA = YAML.load_file("../config/db_schema.yml")

@@ -1,6 +1,8 @@
 require 'active_record'
 require 'sqlite3'
 
+# Clean up parts of a store
+
 module Janitor
 
   def clean_database

@@ -1,6 +1,8 @@
 $LOAD_PATH.unshift(File.dirname(__FILE__))
 require 'faker'
 
+# Build things that a store sells
+
 module Item
   def vendor_id
     rand( 1..@vendors )
@@ -33,7 +35,8 @@ module Item
       :title     => title,
       :author    => author,
       :price     => price,
-      :in_stock  => initial_stock
+      :in_stock  => initial_stock,
+      :min_stock => min_stock
     }
   end
 end

@@ -4,10 +4,19 @@ require 'models/models'
 require 'controllers/item'
 require 'controllers/contract'
 
+# Simulate store actions
+
 module Simulations
 include Models
 include Item
 include Contract
+
+  def populate_everything
+    populate_vendors
+    populate_employees
+    populate_products
+    populate_transactions
+  end
 
   def populate_vendors
     @vendors.times { Vendor.create( setup_vendor ) }
@@ -25,18 +34,32 @@ include Contract
     rand( 1..@max_daily_transactions ).times { make_sale }
   end
 
-  def make_sale
-    product  = Product.offset( rand(Product.count) ).first
-    result   = product.in_stock.zero? ? "out-of-stock" : "sold"
-    emp_id   = Employee.offset( rand(Employee.count) ).first.id
-    datetime = ( @date.at_beginning_of_day + rand(0..3599) ).to_s
+  def decrement_stock(product)
+    if product.in_stock.zero?
+      return "out-of-stock", 0
+    else
+      product.decrement!(:in_stock)
+      return "sold", product.price
+    end
+  end
 
-    product.decrement!(:in_stock) if Transaction.create(
+  def make_sale(id = false)
+    product =
+      if id
+        Product.where( :id => id ).first
+      else
+        Product.offset( rand(Product.count) ).first
+      end
+    result, price = decrement_stock(product)
+    emp_id = Employee.offset( rand(Employee.count) ).first.id
+    datetime = ( @date.at_beginning_of_day + rand(0..86399) )
+    sale = Transaction.create(
       :employee_id => emp_id,
       :product_id  => product.id,
       :date        => datetime,
-      :price       => product.price,
+      :price       => price,
       :result      => result
     )
+    return ( result == "sold" && sale ) ? true : false
   end
 end

@@ -9,7 +9,7 @@ products:
 transactions:
   :employee_id: integer
   :product_id: integer
-  :date: string
+  :date: datetime
   :price: decimal
   :result: string
 

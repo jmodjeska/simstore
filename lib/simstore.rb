@@ -1,19 +1,20 @@
+$LOAD_PATH.unshift(File.dirname(__FILE__))
 require 'rubygems'
 require 'bundler/setup'
-
-$LOAD_PATH.unshift(File.dirname(__FILE__))
 require 'models/constructor'
 require 'models/janitor'
 require 'controllers/input_validator'
 require 'controllers/simulations'
+require 'controllers/reports'
 
 class SimStore
 include Constructor
 include Janitor
 include Validator
 include Simulations
+include Reports
 
-  attr_accessor :db, :db_name
+  attr_accessor :db, :db_name, :store_name
   CONFIG = YAML.load_file("../config/config.yml")
 
   def initialize ( options = {} )
@@ -37,7 +38,7 @@ include Simulations
   def validate_input
     validate_integer_arguments
     validate_dbname_argument
-    validate_date_arguments
+    @date = validate_date_argument(@date)
     validate_range_arguments
     warn_on_insufficient_stock
     return true

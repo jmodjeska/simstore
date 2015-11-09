@@ -7,18 +7,9 @@ class SimStoreTest < Minitest::Test
   SCHEMA = YAML.load_file("../config/db_schema.yml")
 
   def setup
-    @config = {
-      :db_name => 'test'
-    }
+    @config = { :db_name => 'test' }
     @test_store = SimStore.new(@config)
-    populate_everything(@test_store)
-  end
-
-  def populate_everything(store)
-    store.populate_vendors
-    store.populate_employees
-    store.populate_products
-    store.populate_transactions
+    @test_store.populate_everything
   end
 
   def test_named_db_is_created
@@ -49,14 +40,14 @@ class SimStoreTest < Minitest::Test
 
   def test_clean_database
     s = SimStore.new
-    populate_everything(s)
+    s.populate_everything
     s.clean_database
   end
 
-  def clean_table
+  def test_clean_table
     s = SimStore.new
-    populate_everything(s)
+    s.populate_everything
     s.clean_table("products")
-    assert_equal true, Models::Employee.take(1).empty?
+    assert_equal true, Models::Product.take(1).empty?
   end
 end
