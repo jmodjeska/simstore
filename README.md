@@ -52,4 +52,4 @@ Edit `config/config.yml` to adjust the variables that control the store's config
 ```
 
 ## Reporting
-The [reports](https://github.com/jmodjeska/simstore/blob/master/lib/controllers/reports.rb) module contains logic to build common reports. There are also numerous [queries](https://github.com/jmodjeska/simstore/blob/master/lib/models/queries.rb) available so you can roll your own.
+The [reports](https://github.com/jmodjeska/simstore/blob/master/lib/controllers/reports.rb) module contains logic to build common reports and save them in HTML format using the predefined templates in `/config/templates.yml`. There are also numerous [queries](https://github.com/jmodjeska/simstore/blob/master/lib/models/queries.rb) available so you can roll your own.
