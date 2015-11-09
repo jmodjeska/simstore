@@ -7,7 +7,10 @@ Installation is easy with bundler. Clone this repo and then run:
 bundle install
 ```
 
-## Usage
+## Interactive Usage on the Command Line
+Setup, configure, and report on a store by running [store_manager.rb](https://github.com/jmodjeska/simstore/blob/master/lib/views/store_manager.rb). Any reports you generate are saved in `/output`.
+
+## Development Using the SimStore Class
 #### Easy store setup and first day's sales
 Constuct and populate a store, and run a day's sales using config values assigned in `config.yml`:
 ```
@@ -44,6 +47,4 @@ Edit `config/config.yml` to adjust the variables that control the store's config
 ```
 
 ## Reporting
-```
-TODO: Add Reporting Instructions
-```
+The [reports](https://github.com/jmodjeska/simstore/blob/master/lib/controllers/reports.rb) module contains logic to build common reports. There are also numerous [queries](https://github.com/jmodjeska/simstore/blob/master/lib/models/queries.rb) available so you can roll your own.
