@@ -26,7 +26,7 @@ store.populate_employees       #=> Get some new employees
 ```
 #### Run additional days' sales:
 ```
-store.update_date(new_date in mm-dd-yyyy format)
+store.update_date(new_date in yyyy-mm-dd format)
 store.populate_transactions
 ```
 
