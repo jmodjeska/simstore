@@ -73,6 +73,13 @@ include Models
     db_exec('items_to_replenish')
   end
 
+  def get_transaction_date(bound)
+    case bound
+    when :min then return Transaction.minimum( :date )
+    when :max then return Transaction.maximum( :date )
+    end
+  end
+
   # Reports by date range
 
   def parse_dates(from, to)

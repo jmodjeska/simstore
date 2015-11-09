@@ -14,27 +14,17 @@ include Queries
   REPORT_LOCATION = '../output/'
 
   def set_report_options( options = {} )
-    if options[:from_date].nil?
-      @query_from = nil
-      @report_from = "All Time"
-    else
-      @query_from = validate_date_argument(options[:from_date])
-      @report_from = "#{@query_from.to_s[0..9]} to "
-    end
-
-    if options[:to_date].nil?
-      @query_to, @report_to = nil, nil
-    else
-      @query_from = validate_date_argument(options[:from_date])
-      @report_from = @query_from.to_s[0..9]
-    end
-
-    @report_id = ( options[:id].to_i == 0 ) ? nil : options[:id]
-    @report_template = options[:template]
+    start_date    = get_transaction_date(:min) if options[:start_date].nil?
+    end_date      = get_transaction_date(:max) if options[:end_date].nil?
+    @query_from   = validate_date_argument(start_date)
+    @query_to     = validate_date_argument(end_date)
+    @report_range = "#{@query_from.to_s[0..9]} to #{@query_from.to_s[0..9]}"
+    @report_id    = ( options[:id].to_i == 0 ) ? nil : options[:id]
+    @report_type  = options[:template]
   end
 
   def build_report
-    case @report_template
+    case @report_type
     when "sales_report"
       report = render_html('sales_report', prepare_sales_report)
       save_report(report, :sales)
@@ -42,15 +32,17 @@ include Queries
       report = render_html('bestseller_report', prepare_bestseller_report)
       save_report(report, :bestseller)
     else
-      return "No such report: #{@report_template}."
+      return "No such report: #{@report_type}."
     end
   end
 
   def prepare_bestseller_report
     content = get_bestseller_list(@query_from, @query_to)
-      .map { |row| row.values }
+      .map { |item_hash| item_hash.values }
+      .map.with_index { |list_row, i| list_row.unshift( i + 1 ) }
+      .each { |list_row| list_row[-1] = ( "$%.2f" % list_row[-1] ) }
     html_replacements = {
-      'DATE' => "#{@report_from} #{@report_to}",
+      'DATE' => @report_range,
       'HEADERS' => html_table_header(TEMPLATES['bestseller_headers']),
       'TABLE_CONTENT' => html_table_rows(content)
     }
@@ -60,7 +52,7 @@ include Queries
     content = get_sales_list(@query_from, @query_to)
       .map { |row| row.values }
     html_replacements = {
-      'DATE' => "#{@report_from} #{@report_to}",
+      'DATE' => @report_range,
       'HEADERS' => html_table_header(TEMPLATES['sales_headers']),
       'TABLE_CONTENT' => html_table_rows(content)
     }
@@ -79,7 +71,7 @@ include Queries
   end
 
   def render_html(report_template, substitutions)
-    template  = TEMPLATES[common_header]
+    template  = TEMPLATES['common_header']
     template += TEMPLATES[report_template]
     substitutions.each { |k, v| template.gsub!("[-*#{k}*-]", v) }
     HtmlBeautifier.beautify(Nokogiri::HTML(template).to_html)
