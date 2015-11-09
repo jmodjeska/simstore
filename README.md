@@ -8,7 +8,12 @@ bundle install
 ```
 
 ## Interactive Usage on the Command Line
-Setup, configure, and report on a store by running [store_manager.rb](https://github.com/jmodjeska/simstore/blob/master/lib/views/store_manager.rb). Any reports you generate are saved in `/output`.
+Setup, configure, and report on a store with: 
+```
+cd lib/views/
+ruby store_manager.rb
+```
+Note that any reports you generate are saved in `/output`.
 
 ## Development Using the SimStore Class
 #### Easy store setup and first day's sales
