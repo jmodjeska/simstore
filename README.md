@@ -17,7 +17,7 @@ store.populate_everything    #=> Builds all required lists, and simulates the fi
 #### Customized setup
 Construct and populate a store, overriding some of the default config options:
 ```
-store = Simstore.new( :max_daily_transactions => 200, :db_name => 'jeremy.db' )
+store = Simstore.new( :max_daily_transactions => 200, :db_name => 'jeremy' )
 ```
 In lieu of `populate_everything` you can (re-)populate lists individually for fun and profit. The following syntax works for `employees`, `vendors`, `products`, and `transactions`:
 ```
