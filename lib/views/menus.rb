@@ -3,21 +3,16 @@
 module Menus
 
   def fragments(selector)
-    case selector
-    when :exit
-      "\nPress any other key to exit\n\n"
-    when :main
-      " - (m) Go back to the main menu"
-    when :back
-      " - (s) Go back to the store menu"
-    when :store
-      "Options for store: #{@store.store_name}\n" +
-      "Using database: #{@store.db_name}"
-    when :line
-      "===========================================================\n"
-    when :output
-      "Output will be saved in HTML format in ../output/\n"
-    end
+    f = {
+      :exit   => "\nPress any other key to exit\n\n",
+      :main   => " - (m) Go back to the main menu",
+      :back   => " - (s) Go back to the store menu",
+      :store  => "Options for store: STORENAME\n" +
+                 "Using database: DBNAME",
+      :line   => "=========================================================\n",
+      :output => "Output will be saved in HTML format in ../output/\n"
+    }
+    return f[selector]
   end
 
   def main_menu
@@ -28,7 +23,7 @@ module Menus
     options = [
       ['Customize and setup a new store', 'configure_store_options'],
       ['Setup a new store with default options', 'run_sim']
-      # ['Use an existing store', 'show_menu(existing_store_menu)']
+      # ['Use an existing store', 'interface(existing_store_menu)']
     ]
     return depth, banner, options
   end
@@ -39,7 +34,7 @@ module Menus
 
     options = [
       ['Show details for your store', 'describe_store'],
-      ['Generate a report for your store', "show_menu('report_menu')"],
+      ['Generate a report for your store', "interface('report_menu')"],
       ['Simulate another day of sales', 'run_next_day']
     ]
     return depth, banner, options
@@ -68,7 +63,7 @@ module Menus
       ['Detailed Sales Report', "get_report('sales_report', 'dates')"],
       ['Bestseller Report', "get_report('bestseller_report', 'dates')"],
       ['Total Revenue Report', "get_report('revenue_report', 'dates')"],
-      ['Low Inventory Report', "get_report('low_inventory_report')"],
+      ['Low Inventory Report', "get_report('replenish_report')"],
       ['Employee List', "get_report('employee_list')"],
       ['Vendor List', "get_report('vendor_list')"],
       ['Product List', "get_report('product_list')"]

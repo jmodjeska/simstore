@@ -11,40 +11,49 @@ include Menus
 
   def initialize
     @store = nil
-    show_menu('main_menu')
+    interface('main_menu')
   end
 
-  def show_menu(menu, message = nil)
+  def interface(menu, message = nil)
     depth, banner, options = eval(menu)
-    valid_options = []
-
-    # Output the menu to the command line
+    menu_items, valid_options, results = [], [], []
     puts ""
     puts "\n#{message}\n\n" if message
-    puts banner
     options.each.with_index do |opt, i|
-      puts " - (#{i + 1}) #{opt[0]}"
+      menu_items << " - (#{i + 1}) #{opt[0]}"
       valid_options << i + 1
+      results << opt[1]
     end
+    insert_store_vars(banner) if depth > 0
+    show_menu(depth, banner, menu_items)
+    print "> "
+    process_input(valid_options, results)
+  end
+
+  def show_menu(depth, banner, options)
+    puts banner
+    puts options
     puts fragments(:main) if depth > 0
     puts fragments(:back) if depth > 1
     puts fragments(:exit)
-    print "> "
+  end
 
-    # Process user input
+  def insert_store_vars(banner)
+    banner.gsub!( "STORENAME", @store.store_name )
+    banner.gsub!( "DBNAME", @store.db_name )
+    return banner
+  end
+
+  def process_input(valid_options, results)
     option_selected = STDIN.getch
     puts "\n"
     if valid_options.include?( option_selected.to_i )
-      eval(options[option_selected.to_i - 1][1])
+      eval(results[option_selected.to_i - 1])
     else
       case option_selected
-      when "m"
-        show_menu('main_menu')
-      when "s"
-        show_menu('store_menu')
-      else
-        exitmsg
-        exit
+      when "m" then interface('main_menu')
+      when "s" then interface('store_menu')
+      else exitmsg
       end
     end
   end
@@ -56,6 +65,7 @@ include Menus
 
   def exitmsg
     puts "\nBye!\n\n"
+    exit
   end
 
   def prompt(question)
@@ -98,7 +108,7 @@ include Menus
     end
     puts "Press any key to return to the reports menu."
     STDIN.getch
-    show_menu('report_menu')
+    interface('report_menu')
   end
 
   def run_sim( options = {} )
@@ -121,7 +131,7 @@ include Menus
     rescue Exception => e
       errormsg(step_name, e)
     end
-    show_menu('store_menu', 'This is great! You have a store. What now?')
+    interface('store_menu', 'This is great! You have a store. What now?')
   end
 
   def describe_store
@@ -131,7 +141,7 @@ include Menus
     end
     puts "\n\nPress any key to return to the store menu.\n"
     STDIN.getch
-    show_menu('store_menu')
+    interface('store_menu')
   end
 
   def run_next_day
@@ -139,11 +149,11 @@ include Menus
     print "\nRunning another day of sales ... "
     print ( @store.populate_transactions ? "Done!" : "Failed :(" )
     puts ""
-    show_menu('store_menu')
+    interface('store_menu')
   end
 end
 
 # Runtime
 
 print %x{clear}
-interface = StoreManager.new
+ui = StoreManager.new

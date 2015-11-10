@@ -26,27 +26,14 @@ include Queries
   end
 
   def build_report
-    savable = true
-    case @report_type
-    when 'sales_report'
-      report = render_html('sales_report', prepare_sales_report)
-    when 'bestseller_report'
-      report = render_html('bestseller_report', prepare_bestseller_report)
-    when 'revenue_report'
-      report = render_html('revenue_report', prepare_revenue_report)
-    when 'replenish_report', 'low_inventory_report'
-      report = render_html('replenish_report', prepare_replenish_report)
-    when 'employee_list'
-      report = render_html('employee_list', prepare_employee_list)
-    when 'vendor_list'
-      report = render_html('vendor_list', prepare_vendor_list)
-    when 'product_list'
-      report = render_html('product_list', prepare_product_list)
-    else
-      return "No such report: #{@report_type}."
+    unless defined? @report_type == "method"
       savable = false
+      return "No such report: #{@report_type}"
     end
-    save_report(report, @report_type) if savable
+    save_report(
+      render_html(@report_type, eval( "prepare_#{@report_type}" )),
+      @report_type
+    )
   end
 
   def prepare_bestseller_report
