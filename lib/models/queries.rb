@@ -9,7 +9,7 @@ require 'yaml'
 module Queries
 include Models
 
-  SQL = YAML.load_file("../config/sql.yml")
+  SQL = YAML.load_file('models/sql.yml')
 
   def db_exec(query, *params)
     begin
@@ -30,23 +30,47 @@ include Models
   end
 
   def describe_item(id)
-    Product.where( :id => id ).first.as_json
+    Product
+      .where( :id => id )
+      .first.as_json
   end
 
   def describe_vendor(id)
-    Vendor.where( :id => id ).first.as_json
+    Vendor
+      .where( :id => id )
+      .first.as_json
   end
 
   def describe_employee(id)
-    Employee.where( :id => id ).first.as_json
+    Employee
+      .where( :id => id )
+      .first.as_json
+  end
+
+  def list_employees
+    Employee.all.as_json
+  end
+
+  def list_vendors
+    Vendor.all.as_json
+  end
+
+  def list_products
+    Product.all.as_json
   end
 
   def get_stock_by_item(id)
-    Product.where( :id => id ).first.as_json["in_stock"]
+    Product
+      .where( :id => id )
+      .first
+      .as_json["in_stock"]
   end
 
   def get_price_by_item(id)
-    Product.where( :id => id ).first.as_json["price"].to_f
+    Product
+      .where( :id => id )
+      .first
+      .as_json["price"].to_f
   end
 
   def get_sales_by_item(id)
@@ -92,9 +116,14 @@ include Models
 
   def get_total_revenues(from = nil, to = nil)
     from_date, to_date = parse_dates(from, to)
-    Transaction
-      .where( :date => from_date..to_date )
-      .select( :date, :price )
+      Transaction
+        .where( :date => from_date..to_date )
+        .group( :date )
+        .sum( :price )
+        .map { |k, v| [ k.to_s[0..9], v.to_f ] }
+        .group_by(&:first)
+        .each_value { |arr| arr.each { |row| row.shift } }
+        .map { |k, v| [ k, v.flatten.reduce(:+) ] }
   end
 
   def get_sales_list(from = nil, to = nil)

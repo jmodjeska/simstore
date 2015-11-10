@@ -40,7 +40,7 @@ get_bestseller_list: >
   LIMIT ?
 
 items_to_replenish: >
-  SELECT p.id, p.title, p.vendor_id,
+  SELECT p.id, p.title,
   v.name AS "vendor_name", p.min_stock, p.in_stock
   FROM products p
   JOIN vendors v on v.id = p.vendor_id

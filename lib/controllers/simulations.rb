@@ -20,18 +20,27 @@ include Contract
 
   def populate_vendors
     @vendors.times { Vendor.create( setup_vendor ) }
+    return ( Vendor.take( @vendors ).count == @vendors )
   end
 
   def populate_employees
     @employees.times { Employee.create( setup_employee ) }
+    return ( Employee.take( @employees ).count == @employees )
   end
 
   def populate_products
     @unique_items.times { Product.create( setup_item ) }
+    return ( Product.take( @unique_items ).count == @unique_items )
   end
 
   def populate_transactions
-    rand( 1..@max_daily_transactions ).times { make_sale }
+    random_sales = rand( 1..@max_daily_transactions )
+    random_sales.times { make_sale }
+    return ( Transaction.take( random_sales ).count == random_sales )
+  end
+
+  def goto_next_day
+    @date = @date.at_beginning_of_day + 24.hours
   end
 
   def decrement_stock(product)

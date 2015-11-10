@@ -19,7 +19,7 @@ module Validator
 
   def validate_dbname_argument
     if @db_name && !(File.exist?("../data/#{@db_name}.db"))
-      warn "Warning: database #{@db_name}.db doesn't exist. Creating."
+      # puts "Creating #{@db_name}.db."
     end
     @store_name = @db_name
     @db_name = "../data/#{@db_name}.db"

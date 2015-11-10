@@ -5,7 +5,7 @@ require 'yaml'
 # Build and destroy stores
 
 module Constructor
-  SCHEMA = YAML.load_file("../config/db_schema.yml")
+  SCHEMA = YAML.load_file('models/db_schema.yml')
 
   def db_up
     access_or_create_db
@@ -16,6 +16,7 @@ module Constructor
   def access_or_create_db
     SQLite3::Database.new @db_name unless File.exist?(@db_name)
     ActiveRecord::Base.logger = Logger.new("../data/ssdb.log")
+    ActiveRecord::Base.default_timezone = :local
     ActiveRecord::Base.establish_connection(
       :adapter  => 'sqlite3',
       :database => @db_name
@@ -23,6 +24,7 @@ module Constructor
   end
 
   def create_table_schema
+    ActiveRecord::Migration.verbose = false
     ActiveRecord::Schema.define do
       SCHEMA.each do |table_def|
         unless ActiveRecord::Base.connection.table_exists? table_def[0]

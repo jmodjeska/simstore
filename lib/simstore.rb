@@ -14,8 +14,8 @@ include Validator
 include Simulations
 include Reports
 
-  attr_accessor :db, :db_name, :store_name
-  CONFIG = YAML.load_file("../config/config.yml")
+  attr_accessor :db, :db_name, :store_name, :date
+  CONFIG = YAML::load_file("../config/config.yml")
 
   def initialize ( options = {} )
     options.reject! { |o, v| v == 0 || v.to_s.empty? }
@@ -29,10 +29,8 @@ include Reports
     @db = db_up
   end
 
-  def update_date(new_date)
-    @date = new_date
-    validate_date_arguments
-  end
+  # TODO: save config options in a DB table
+  # If a db_name is passed, and it exists, then don't overwrite the config
 
   private
   def validate_input
