@@ -135,7 +135,6 @@ include Menus
   end
 
   def run_next_day
-
     @store.goto_next_day
     print "\nRunning another day of sales ... "
     print ( @store.populate_transactions ? "Done!" : "Failed :(" )
