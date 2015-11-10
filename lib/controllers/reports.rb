@@ -14,9 +14,9 @@ include Queries
   REPORT_LOCATION = '../output/'
 
   def set_report_options( options = {} )
-    start_date    = get_transaction_date(:min) if
+    start_date = get_transaction_date(:min) if
       ( options[:start_date].nil? || options[:start_date].length < 8 )
-    end_date      = get_transaction_date(:max) if
+    end_date = get_transaction_date(:max) if
       ( options[:end_date].nil? || options[:start_date].length < 8 )
     @query_from   = validate_date_argument(start_date)
     @query_to     = validate_date_argument(end_date)
