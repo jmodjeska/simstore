@@ -2,8 +2,9 @@
 A simulated bookstore project for my Ruby class. Uses simple randomization to generate inventory, fake sales, and sales reports, including a Bestseller List.
 
 ## Installation
-Installation is easy with bundler. Clone this repo and then run:
+Installation is easy with [bundler](http://bundler.io/). Clone this repo and then run:
 ```
+cd simstore
 bundle install
 ```
 
