@@ -129,8 +129,7 @@ include Queries
   end
 
   def save_report(data, type)
-    filename = "#{REPORT_LOCATION}simstore-" +
-      "#{@store_name}_#{type}.html"
+    filename = "#{REPORT_LOCATION}simstore-#{@store_name}_#{type}.html"
     File.write( filename, data )
     return File.exist?( filename ) ? filename : false
   end
