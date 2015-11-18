@@ -8,15 +8,15 @@ cd simstore
 bundle install
 ```
 
-## Interactive Usage on the Command Line
-Setup, configure, and report on a store with: 
+## Start the Web UI
+Setup, configure, and report on a store via your browser: 
 ```
-cd lib/views/
-ruby store_manager.rb
+cd lib/controllers/
+ruby server.rb
 ```
-Note that any reports you generate are saved in `/output`.
+Now browse to http://localhost:8000/
 
-## Development Using the SimStore Class
+## Development and Command Line Interaction with the SimStore Class
 #### Easy store setup and first day's sales
 Constuct and populate a store, and run a day's sales using config values assigned in `config.yml`:
 ```
@@ -35,22 +35,16 @@ store.populate_employees       #=> Get some new employees
 ```
 #### Run additional days' sales:
 ```
-store.update_date(new_date in yyyy-mm-dd format)
+store.add_stock               # Optional
+store.update_date(new_date)   # yyyy-mm-dd
 store.populate_transactions
+```
+#### Setup promotions:
+Modify promotion logic in `config.yml`, then apply promotions to selected products. Next time you simulate sales for this store, promotion logic will be in effect for the selected products.
+```
+store.assign_promotions_to_products            # Assign random promotions to 10% of products
+store.activate_promotion(product_id, promo_id) # Assign promotion to a specific product
 ```
 
 ## Configuration
 Edit `config/config.yml` to adjust the variables that control the store's configuration, or pass configuration options as arguments to `simstore.rb` in a hash. The `db_name` variable should remain empty unless you want to create/use a specific database file. Min/max options represent upper and lower bounds; actual values are randomized in runtime.
-```
-:max_daily_transactions: 800
-:min_stock_per_item: 3
-:max_stock_per_item: 47
-:max_price: 100
-:unique_items: 100
-:vendors: 5
-:employees: 6
-:db_name:
-```
-
-## Reporting
-The [reports](https://github.com/jmodjeska/simstore/blob/master/lib/controllers/reports.rb) module contains logic to build common reports and save them in HTML format using the predefined templates in `/config/templates.yml`. There are also numerous [queries](https://github.com/jmodjeska/simstore/blob/master/lib/models/queries.rb) available so you can roll your own.
