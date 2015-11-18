@@ -1,0 +1,61 @@
+overview_headers:
+  - Configuration Option
+  - Value
+
+sales_headers:
+  - Date/Time
+  - SKU
+  - Qty
+  - Title
+  - Price
+  - Discount
+  - Net Sale
+  - Employee Name
+  - Result
+  - Promotion ID
+
+bestseller_headers:
+  - Position
+  - Title
+  - Author
+  - Product ID
+  - Quantity Sold
+  - Total Revenue
+
+revenue_headers:
+  - Date
+  - Total Revenue
+
+replenish_headers:
+  - Product ID
+  - Vendor ID
+  - Vendor Name
+  - Title
+  - Author
+  - Price
+  - In Stock
+  - Reorder Threshold
+
+employee_headers:
+  - Employee ID
+  - Employee Name
+  - Employee Title
+
+vendor_headers:
+  - Vendor ID
+  - Vendor Name
+
+promotion_headers:
+  - Promotion ID
+  - Promotion Name
+  - Application Logic
+
+product_headers:
+  - Product ID
+  - Vendor ID
+  - Title
+  - Author
+  - Price
+  - In Stock
+  - Reorder Threshold
+  - Active Promotion

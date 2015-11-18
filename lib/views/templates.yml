@@ -1,81 +1,267 @@
 common_header: >
-  <title>SimStore Report</title>
-  <link rel="stylesheet" href="http://yui.yahooapis.com/pure/0.6.0/pure-min.css">
-  <body style="margin: 20px;">
+  <title>SimStore</title>
 
-common_table: >
-  <table class="pure-table pure-table-bordered">
-  <thead>[-*HEADERS*-]</thead><tbody>[-*TABLE_CONTENT*-]</tbody>
-  </table>
+  <link rel="stylesheet" href=
+  "https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
 
-sales_report: >
-  <h1>SimStore Sales Report for [-*DATE*-]</h1>
-  <h2>Detailed Sales</h2>
+  <link rel="stylesheet" href=
+  "https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
 
-sales_headers:
-  - Date/Time
-  - SKU
-  - Title
-  - Author
-  - Sale Price
-  - Employee Name
-  - Result
+  <link rel="stylesheet" href=
+  "http://getbootstrap.com/examples/dashboard/dashboard.css">
 
-bestseller_report: >
-  <h1>SimStore Bestseller List for [-*DATE*-]</h1>
-  <h2>Bestseller List</h2>
+  <script src="http://code.jquery.com/jquery-latest.min.js"></script>
 
-bestseller_headers:
-  - Position
-  - Title
-  - Author
-  - Product ID
-  - Quantity Sold
-  - Total Revenue
+  <script src=
+  "https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js">
+  </script>
 
-revenue_report: >
-  <h1>SimStore Sales Report for [-*DATE*-]</h1>
-  <h2>Total Revenue by Date</h2>
+  <style type="text/css">
+    body {
+      padding-top: 50px;
+      padding-bottom: 20px;
+    }
+    #kill-db {
+      display: none;
+      font-size: 12px;
+    }
+    .kill-button {
+      color: #f2dede;
+      padding-left: 4px;
+    }
+    .kill-button:hover {
+      text-decoration: none;
+      color: #d9534f;
+    }
+    #errorMessageContainer {
+      padding-top: 20px;
+      position: relative;
+      padding-left: [-*ERROR_PAD*-]px;
+    }
+    #errorMessage {
+      display: [-*ERROR_SHOW*-];
+    }
+    #setup-hidden, #user-specified-db, #simType {
+      display: none;
+    }
+    #manageStoreContainer {
+      display: none;
+    }
+    .infobar {
+      padding: 13px 10px 0 0;
+      color: #9d9d9d;
+    }
+    .infobar a, .infobar a:visited {
+      text-decoration: none;
+      color: #9d9d9d;
+    }
+    .infobar a:hover {
+      text-decoration: none;
+      color: white;
+    }
+    .nav-section {
+      padding-left: 20px;
+    }
+  </style>
 
-revenue_headers:
-  - Date
-  - Total Revenue
+  <body>
 
-replenish_report: >
-  <h1>SimStore Inventory Report [-*DATE*-]</h1>
-  <h2>Items to Replenish</h2>
+  <nav class="navbar navbar-inverse navbar-fixed-top">
+    <div class="[-*CONTAINER*-]">
+      <div class="navbar-header">
+        <a class="navbar-brand" href="/"><i class="fa fa-book fa-1x"></i>
+        SimStore</a>
+      </div>
+      <div id="navbar" class="navbar-collapse collapse">
+        <p class="nav navbar-nav navbar-right infobar">
+          <a href="http://github.com/jmodjeska/simstore">SimStore</a>
+          v[-*VERSION*-] by <a href="http://github.com/jmodjeska">jmodjeska</a>
+          &nbsp; | &nbsp; Active DB:
+          <span id="db-display-name" style="color: #5bc0de;">
+          [-*DBNAME*-]</span><span id="kill-db"><i padding-left: 4px;"
+          class="fa fa-times-circle kill-button"
+          title="Stop using this database
+          (this will not destroy your DB file)."></i></span>
+        </p>
+      </div>
+    </div>
+  </nav>
 
-replenish_headers:
-  - Product ID
-  - Title
-  - Vendor Name
-  - Minimum Stock Needed
-  - In Stock
+  [-*JUMBOTRON*-]
 
-employee_list: >
-  <h1>SimStore Employee List</h1>
+  <div class="[-*CONTAINER*-]">
 
-employee_headers:
-  - Employee ID
-  - Employee Name
-  - Employee Title
+  <div id="errorMessageContainer">
+    <div class="alert alert-danger" role="alert" id="errorMessage">
+    <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+    <span class="sr-only">Error:</span>
+    <span id="errorText">[-*ERROR_MSG*-]</span>
+    </div>
+  </div>
 
-vendor_list: >
-  <h1>SimStore Vendor List</h1>
+  <div id="setup-hidden">Setup Status</div>
 
-vendor_headers:
-  - Vendor ID
-  - Vendor Name
+common_footer: >
+  </div><!-- container -->
 
-product_list: >
-  <h1>SimStore Product List</h1>
+  <div id="user-specified-db">[-*STORENAME*-]</div>
+  <script type="text/javascript">[-*JAVASCRIPT*-]</script>
 
-product_headers:
-  - Product ID
-  - Vendor ID
-  - Title
-  - Author
-  - Price
-  - In Stock
-  - Reorder Threshold
+  [-*MORE_JAVASCRIPT*-]
 
+jumbotron: >
+  <div class="jumbotron">
+    <div class="container">
+      <h1><i class="fa fa-book fa-1x"></i> Welcome to SimStore</h1>
+      <p>This is a fake bookstore. Holy cow.</p>
+      <p><a class="btn btn-primary btn-lg" href="main"
+      role="button">Get started &raquo;</a></p>
+    </div>
+  </div>
+
+main_menu: >
+  <div class="row" style="margin-top: 50px;">
+
+    <div class="col-md-4">
+      <h1 style="color: #eee; font-size: 50px;">
+      <i class="fa fa-cogs fa-3x"></i></h1>
+      <h2>Custom Store</h2>
+      <p>Setup a new store with custom options.</p>
+      <p><a class="btn btn-primary" id="customStoreSetup"
+      href="#" role="button" disabled="disabled">Build</a></p>
+    </div>
+
+    <div class="col-md-4">
+      <h1 style="color: #eee; font-size: 50px;">
+      <i class="fa fa-tasks fa-3x"></i></h1>
+      <h2>Default Store</h2>
+      <p>Setup a new store with default options.</p>
+
+      <button type="button" id="defaultStoreSetup"
+      class="btn btn-primary">Build</button>
+
+      <p id="manageStoreContainer"><a class="btn btn-success" id="manageStore"
+      href="manage_store" role="button">Open Store
+      <i class="fa fa-arrow-right"></i></a></p>
+
+    </div>
+
+    <div class="col-md-4">
+      <h1 style="color: #eee; font-size: 50px;">
+      <i class="fa fa-heart fa-3x"></i></h1>
+        <h2>Existing Store</h2>
+        <p>Load an existing store from file.</p>
+        <p><a class="btn btn-primary" id="existingStore"
+        href="#" role="button" disabled="disabled">Build</a></p>
+    </div>
+
+  </div>
+
+dashboard_sidebar: >
+  <div class="row">
+    <div class="col-sm-3 col-md-2 sidebar">
+      <div style="height: 20px;"></div>
+      [-*SIDE_NAV*-]
+    </div>
+
+dashboard_header: >
+  <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+    <h1 class="page-header">Store Dashboard for <span style="color: #5bc0de;">
+    [-*STORENAME*-]</span></h1>
+
+dashboard_main: >
+    <h2 class="sub-header">[-*REPORT_TITLE*-]</h2>
+    <div class="table-responsive">
+      <table class="table table-striped">
+        <thead>
+          [-*HEADERS*-]
+        </thead>
+        <tbody>
+          [-*TABLE_CONTENT*-]
+        </tbody>
+      </table>
+    </div>
+
+dashboard_run_sales: >
+    <div class="col-md-8">
+
+      <h1 style="color: #eee; font-size: 50px;">
+      <i class="fa fa-money fa-3x"></i></h1>
+      <h2>Run More Sales</h2>
+      <p>Simulate another day of sales.<br>
+      NOTE: you might want to add more stock first if you're running low.</p>
+
+      <div id="simType">run_sales</div>
+      <button type="button" id="runSim"
+      class="btn btn-primary">Run Sales</button>
+
+      <p id="manageStoreContainer"><a class="btn btn-success" id="manageStore"
+      href="manage_store" role="button">Done!</a></p>
+
+    </div>
+
+dashboard_add_stock: >
+    <div class="col-md-8">
+
+      <h1 style="color: #eee; font-size: 50px;">
+      <i class="fa fa-cart-plus fa-3x"></i></h1>
+      <h2>Add More Stock</h2>
+      <p>Get more of your products to sell.</p>
+
+      <div id="simType">add_stock</div>
+      <button type="button" id="runSim"
+      class="btn btn-primary">Add Stock</button>
+
+      <p id="manageStoreContainer"><a class="btn btn-success" id="manageStore"
+      href="manage_store" role="button">Done!</a></p>
+
+    </div>
+
+dashboard_apply_promotions: >
+    <div class="col-md-8">
+
+      <h1 style="color: #eee; font-size: 50px;">
+      <i class="fa fa-tags fa-3x"></i></h1>
+      <h2>Add Promotions</h2>
+      <p>Randomly apply promotions to some of your products.<br>
+      NOTE: run another day of sales to see your promotions in action.</p>
+
+      <div id="simType">apply_promotions</div>
+      <button type="button" id="runSim"
+      class="btn btn-primary">Apply Promotions</button>
+
+      <p id="manageStoreContainer"><a class="btn btn-success" id="manageStore"
+      href="manage_store" role="button">Done!</a></p>
+
+    </div>
+
+dashboard_footer: >
+  </div>
+  </div><!-- row -->
+
+not_found: >
+  <h1>Not Found</h1>
+  <p>Oh geez.</p>
+
+general_error: >
+  <div style="width: 100%; text-align: center; padding-top: 90px;">
+    <h1 style="color: #f2dede; font-size: 50px;">
+      <i class="fa fa-exclamation-triangle fa-5x"></i>
+    </h1>
+  </div>
+
+hide_kill_db: >
+  <script>
+    $(document).ready(function(){
+      $("#kill-db").hide();
+    });
+  </script>
+
+clear_cookies: >
+  <script>
+    $(document).ready(function(){
+      document.cookie="db=;";
+      $("#db-display-name").text('None');
+      $("#kill-db").hide();
+    });
+  </script>

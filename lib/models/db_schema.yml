@@ -1,16 +1,33 @@
+settings:
+  :max_daily_transactions: integer
+  :min_stock_per_item: integer
+  :max_stock_per_item: integer
+  :unique_items: integer
+  :vendors: integer
+  :employees: integer
+  :max_price: float
+  :max_unique_per_sale: integer
+  :date: datetime
+  :db_name: string
+
 products:
   :vendor_id: integer
   :title: string
   :author: string
-  :price: decimal
+  :price: float
   :in_stock: integer
   :min_stock: integer
+  :promotion_id: integer
 
 transactions:
   :employee_id: integer
   :product_id: integer
   :date: datetime
-  :price: decimal
+  :price: float
+  :discount: float
+  :promotion_id: integer
+  :net_sale: float
+  :qty: integer
   :result: string
 
 vendors:
@@ -19,3 +36,7 @@ vendors:
 employees:
   :name: string
   :title: string
+
+promotions:
+  :name: string
+  :logic: string

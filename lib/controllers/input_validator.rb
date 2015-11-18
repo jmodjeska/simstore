@@ -17,12 +17,12 @@ module Validator
     end
   end
 
-  def validate_dbname_argument
-    if @db_name && !(File.exist?("../data/#{@db_name}.db"))
-      # puts "Creating #{@db_name}.db."
-    end
-    @store_name = @db_name
-    @db_name = "../data/#{@db_name}.db"
+  def extract_db_name
+    @db_name.match(/data\/(.*?)\./)[1]
+  end
+
+  def assemble_db_name(name)
+    "../data/#{name.to_s}.db"
   end
 
   def validate_date_argument(date)

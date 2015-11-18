@@ -21,6 +21,29 @@ include Models
     end
   end
 
+  def check_setup_completion
+    Setting.first
+      .as_json
+      .find_all { |k, v| v.nil? || v.to_s == "0" }
+  end
+
+  def check_sim_completion
+    [Vendor, Employee, Product, Promotion, Transaction].each do |check|
+      return check.table_name if check.first.as_json.nil?
+    end
+    return "OK"
+  end
+
+  def describe(model, id)
+    eval( "#{model.capitalize}" )
+      .where( :id => id )
+      .first.as_json
+  end
+
+  def list_table(table)
+    eval( "#{table.capitalize}" ).all.as_json
+  end
+
   def count_items
     Product.count
   end
@@ -29,75 +52,49 @@ include Models
     Product.sum( :in_stock )
   end
 
-  def describe_item(id)
-    Product
-      .where( :id => id )
-      .first.as_json
-  end
-
-  def describe_vendor(id)
-    Vendor
-      .where( :id => id )
-      .first.as_json
-  end
-
-  def describe_employee(id)
-    Employee
-      .where( :id => id )
-      .first.as_json
-  end
-
-  def list_employees
-    Employee.all.as_json
-  end
-
-  def list_vendors
-    Vendor.all.as_json
-  end
-
-  def list_products
-    Product.all.as_json
-  end
-
   def get_stock_by_item(id)
     Product
       .where( :id => id )
-      .first
-      .as_json["in_stock"]
+      .first.as_json["in_stock"]
   end
 
   def get_price_by_item(id)
     Product
       .where( :id => id )
-      .first
-      .as_json["price"].to_f
-  end
-
-  def get_sales_by_item(id)
-    db_exec('get_sales_by_item', id)
+      .first.as_json["price"]
   end
 
   def get_revenue_by_item(id)
-    [].tap do |sale_prices|
-      get_sales_by_item(id).each do |sale|
-        sale_prices << sale["price"]
-      end
-    end.reduce(:+)
+    Transaction
+      .where( :product_id => id )
+      .map { |tr| tr.net_sale }
+      .reduce(:+)
   end
 
   def get_sales_by_employee(id)
-    db_exec('get_sales_by_employee', id)
+    Transaction
+      .where( :employee_id => id ).as_json
+      .each { |hash| hash["price"] = hash["price"].to_s }
   end
 
   def get_sales_by_vendor(id)
-    db_exec('get_sales_by_vendor', id)
+    Transaction.joins( :product )
+      .where( "products.vendor_id = ?", id ).as_json
+      .each { |hash| hash["price"] = hash["price"].to_s }
   end
 
   def get_items_to_replenish
-    db_exec('items_to_replenish')
+    Product.where( "in_stock < min_stock" ).map do |pr|
+      [ pr.id, pr.vendor_id, pr.vendor.name, pr.title,
+      pr.author, pr.price.to_s, pr.in_stock, pr.min_stock ]
+    end
   end
 
-  # Reports by date range
+  def check_active_promotion(product_id)
+    Product.find_by( id: product_id ).promotion_id.to_i
+  end
+
+  # Queries by date range
 
   def get_transaction_date(bound)
     case bound
@@ -116,19 +113,23 @@ include Models
 
   def get_total_revenues(from = nil, to = nil)
     from_date, to_date = parse_dates(from, to)
-      Transaction
-        .where( :date => from_date..to_date )
-        .group( :date )
-        .sum( :price )
-        .map { |k, v| [ k.to_s[0..9], v.to_f ] }
-        .group_by(&:first)
-        .each_value { |arr| arr.each { |row| row.shift } }
-        .map { |k, v| [ k, v.flatten.reduce(:+) ] }
+    Transaction
+      .where( :date => from_date..to_date )
+      .group( :date )
+      .sum( :net_sale )
+      .map { |k, v| [ k.to_s[0..9], v ] }
+      .group_by(&:first)
+      .each_value { |arr| arr.each { |row| row.shift } }
+      .map { |k, v| [ k, v.flatten.reduce(:+) ] }
   end
 
   def get_sales_list(from = nil, to = nil)
     from_date, to_date = parse_dates(from, to)
-    db_exec('sales_list', [from_date, to_date]).as_json
+    Transaction.where( :date => from_date..to_date ).map do |sale|
+      [ sale.date, sale.product_id, sale.qty, sale.product.title,
+      sale.price, sale.discount, sale.net_sale.to_s, sale.employee.name,
+      sale.result, sale.promotion_id ]
+    end
   end
 
   def get_bestseller_list(from = nil, to = nil, len = 10)
