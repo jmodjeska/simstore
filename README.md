@@ -40,7 +40,7 @@ store.goto_next_day
 store.populate_transactions
 ```
 #### Setup promotions:
-Modify promotion logic in `config.yml`, then apply promotions to selected products. Next time you simulate sales for this store, promotion logic will be in effect for the selected products.
+Modify promotion logic in `config.yml`, then apply promotions to selected products. Next time you simulate sales for your store, promotion logic will be in effect for the selected products.
 ```
 store.assign_promotions_to_products            # Assign random promotions to 10% of products
 store.activate_promotion(product_id, promo_id) # Assign promotion to a specific product
