@@ -14,7 +14,7 @@ Setup, configure, and report on a store via your browser:
 cd lib/controllers/
 ruby server.rb
 ```
-Now browse to http://localhost:8000/
+Now browse to [http://localhost:8000/](http://localhost:8000/)
 
 ## Development and Command Line Interaction with the SimStore Class
 #### Easy store setup and first day's sales
