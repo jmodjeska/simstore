@@ -36,7 +36,7 @@ store.populate_employees       #=> Get some new employees
 #### Run additional days' sales:
 ```
 store.add_stock               # Optional
-store.update_date(new_date)   # yyyy-mm-dd
+store.goto_next_day
 store.populate_transactions
 ```
 #### Setup promotions:
