@@ -1,10 +1,11 @@
+Dir.chdir("../lib")
 require 'minitest/autorun'
 require 'yaml'
 require_relative '../lib/simstore.rb'
 
 class SimStoreTest < Minitest::Test
 
-  SCHEMA = YAML.load_file("../config/db_schema.yml")
+  SCHEMA = YAML.load_file("../lib/models/db_schema.yml")
 
   def setup
     @config = { :db_name => 'test' }

@@ -6,4 +6,10 @@ defaults:
   :vendors: 5
   :employees: 6
   :max_price: 100
+  :max_unique_per_sale: 5
   :db_name:
+
+promotions:
+  :three_for_two: "( qty / 3 ) * price"
+  :two_for_one: "( qty / 2 ) * price"
+  :second_half_price: "( qty / 2 ) * ( price / 2 )"

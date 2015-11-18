@@ -1,3 +1,4 @@
+Dir.chdir("../lib")
 require 'minitest/autorun'
 require_relative '../lib/simstore.rb'
 require_relative 'randomconfig.rb'
@@ -45,7 +46,7 @@ class SimStoreTest < Minitest::Test
 
   def test_items_have_required_form
     product_id = rand( 1..@test_store.count_items )
-    item_form = @test_store.describe_item(product_id)
+    item_form = @test_store.describe("product", product_id)
     assert_equal Fixnum, item_form["vendor_id"].class
     assert_equal String, item_form["title"].class
     assert_equal String, item_form["author"].class
@@ -69,14 +70,15 @@ class SimStoreTest < Minitest::Test
     if @test_store.count_stock == 0
       puts "No items in stock. Skipping this test."
     else
-      product_id, before = nil, nil
+      product_id, before, qty = nil, nil, nil
       loop do
         product_id = rand( 1..@test_store.count_items )
         before = @test_store.get_stock_by_item(product_id)
-        break if @test_store.make_sale(product_id)
+        qty = @test_store.make_sale(product_id)
+        break if qty >= 1
       end
       after = @test_store.get_stock_by_item(product_id)
-      assert_equal after, ( before - 1 )
+      assert_equal after, ( before - qty )
     end
   end
 
@@ -84,15 +86,16 @@ class SimStoreTest < Minitest::Test
     if @test_store.count_stock == 0
       puts "No items in stock. Skipping this test."
     else
-      product_id , price, before = nil, nil, nil
+      product_id, price, before, qty = nil, nil, nil, nil
       loop do
         product_id = rand( 1..@test_store.count_items )
         price = @test_store.get_price_by_item(product_id)
         before = @test_store.get_revenue_by_item(product_id) || 0
-        break if @test_store.make_sale(product_id)
+        qty = @test_store.make_sale(product_id)
+        break if qty >= 1
       end
       after = @test_store.get_revenue_by_item(product_id)
-      assert_equal after, ( before + price )
+      assert_equal after, ( before + ( qty * price ) )
     end
   end
 
