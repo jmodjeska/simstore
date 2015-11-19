@@ -4,7 +4,7 @@ overview_headers:
 
 sales_headers:
   - Date/Time
-  - SKU
+  - Product ID
   - Qty
   - Title
   - Price
@@ -59,3 +59,10 @@ product_headers:
   - In Stock
   - Reorder Threshold
   - Active Promotion
+
+icons:
+ -
+  employee: 'fa-user'
+  vendor: 'default'
+  product: 'fa-truck'
+  promotion: 'fa-tags'

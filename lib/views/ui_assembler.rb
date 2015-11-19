@@ -64,16 +64,33 @@ module UIAssembler
   end
 
   def do_sim(sim)
+    content = TEMPLATES['dashboard_sim_header']
     case sim
     when 'run_sales'
-      return [false, TEMPLATES['dashboard_run_sales']]
+      content += TEMPLATES['dashboard_run_sales']
     when 'add_more_stock'
-      return [false, TEMPLATES['dashboard_add_stock']]
+      content += TEMPLATES['dashboard_add_stock']
     when 'apply_promotions'
-      return [false, TEMPLATES['dashboard_apply_promotions']]
+      content += TEMPLATES['dashboard_apply_promotions']
     else
       raise StandardError.new("#{sim}: I don't know how to do that.")
     end
+    content += TEMPLATES['dashboard_sim_footer']
+    return [false, content]
+  end
+
+  def show_detail(type, id)
+    options = {
+      :template => 'show_detail',
+      :describe => type,
+      :id => id
+    }
+    @store.set_report_options( options )
+    content = @store.build_report
+    return [false, TEMPLATES['dashboard_detail']
+      .gsub( '[-*DETAIL_ICON*-]', ICON_TYPES[type] )
+      .gsub( '[-*DETAIL_NAME*-]', type.capitalize )
+      .gsub( '[-*DETAILS*-]', content )]
   end
 
   def finalize_assembly(request_array, request_type)

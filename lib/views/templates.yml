@@ -10,11 +10,8 @@ common_header: >
   <link rel="stylesheet" href=
   "http://getbootstrap.com/examples/dashboard/dashboard.css">
 
-  <script src="http://code.jquery.com/jquery-latest.min.js"></script>
-
-  <script src=
-  "https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js">
-  </script>
+  <link rel="stylesheet" href=
+  "https://cdnjs.cloudflare.com/ajax/libs/sortable/0.8.0/css/sortable-theme-minimal.min.css">
 
   <style type="text/css">
     body {
@@ -62,6 +59,12 @@ common_header: >
     .nav-section {
       padding-left: 20px;
     }
+    td, th {
+      font-size: 14px;
+    }
+    th {
+      color: #337ab7;
+    }
   </style>
 
   <body>
@@ -93,7 +96,8 @@ common_header: >
 
   <div id="errorMessageContainer">
     <div class="alert alert-danger" role="alert" id="errorMessage">
-    <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+    <span class="glyphicon glyphicon-exclamation-sign"
+      aria-hidden="true"></span>
     <span class="sr-only">Error:</span>
     <span id="errorText">[-*ERROR_MSG*-]</span>
     </div>
@@ -105,6 +109,17 @@ common_footer: >
   </div><!-- container -->
 
   <div id="user-specified-db">[-*STORENAME*-]</div>
+
+  <script src=
+    "https://cdnjs.cloudflare.com/ajax/libs/sortable/0.8.0/js/sortable.min.js">
+  </script>
+
+  <script src="http://code.jquery.com/jquery-latest.min.js"></script>
+
+  <script src=
+  "https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js">
+  </script>
+
   <script type="text/javascript">[-*JAVASCRIPT*-]</script>
 
   [-*MORE_JAVASCRIPT*-]
@@ -172,7 +187,7 @@ dashboard_header: >
 dashboard_main: >
     <h2 class="sub-header">[-*REPORT_TITLE*-]</h2>
     <div class="table-responsive">
-      <table class="table table-striped">
+      <table class="table table-striped" data-sortable">
         <thead>
           [-*HEADERS*-]
         </thead>
@@ -182,58 +197,56 @@ dashboard_main: >
       </table>
     </div>
 
+dashboard_sim_header: >
+  <div class="col-md-8">
+
+    <h1 style="color: #eee; font-size: 50px;">
+
 dashboard_run_sales: >
-    <div class="col-md-8">
+  <i class="fa fa-money fa-3x"></i></h1>
+  <h2>Run More Sales</h2>
+  <p>Simulate another day of sales.<br>
+  NOTE: you might want to add more stock first if you're running low.</p>
 
-      <h1 style="color: #eee; font-size: 50px;">
-      <i class="fa fa-money fa-3x"></i></h1>
-      <h2>Run More Sales</h2>
-      <p>Simulate another day of sales.<br>
-      NOTE: you might want to add more stock first if you're running low.</p>
-
-      <div id="simType">run_sales</div>
-      <button type="button" id="runSim"
-      class="btn btn-primary">Run Sales</button>
-
-      <p id="manageStoreContainer"><a class="btn btn-success" id="manageStore"
-      href="manage_store" role="button">Done!</a></p>
-
-    </div>
+  <div id="simType">run_sales</div>
+  <button type="button" id="runSim"
+  class="btn btn-primary">Run Sales</button>
 
 dashboard_add_stock: >
-    <div class="col-md-8">
+  <i class="fa fa-cart-plus fa-3x"></i></h1>
+  <h2>Add More Stock</h2>
+  <p>Get more of your products to sell.</p>
 
-      <h1 style="color: #eee; font-size: 50px;">
-      <i class="fa fa-cart-plus fa-3x"></i></h1>
-      <h2>Add More Stock</h2>
-      <p>Get more of your products to sell.</p>
-
-      <div id="simType">add_stock</div>
-      <button type="button" id="runSim"
-      class="btn btn-primary">Add Stock</button>
-
-      <p id="manageStoreContainer"><a class="btn btn-success" id="manageStore"
-      href="manage_store" role="button">Done!</a></p>
-
-    </div>
+  <div id="simType">add_stock</div>
+  <button type="button" id="runSim"
+  class="btn btn-primary">Add Stock</button>
 
 dashboard_apply_promotions: >
-    <div class="col-md-8">
+  <i class="fa fa-tags fa-3x"></i></h1>
+  <h2>Add Promotions</h2>
+  <p>Randomly apply promotions to some of your products.<br>
+  NOTE: run another day of sales to see your promotions in action.</p>
 
-      <h1 style="color: #eee; font-size: 50px;">
-      <i class="fa fa-tags fa-3x"></i></h1>
-      <h2>Add Promotions</h2>
-      <p>Randomly apply promotions to some of your products.<br>
-      NOTE: run another day of sales to see your promotions in action.</p>
+  <div id="simType">apply_promotions</div>
+  <button type="button" id="runSim"
+  class="btn btn-primary">Apply Promotions</button>
 
-      <div id="simType">apply_promotions</div>
-      <button type="button" id="runSim"
-      class="btn btn-primary">Apply Promotions</button>
+dashboard_sim_footer: >
+  <p id="manageStoreContainer"><a class="btn btn-success" id="manageStore"
+    href="manage_store" role="button">Done!</a></p>
 
-      <p id="manageStoreContainer"><a class="btn btn-success" id="manageStore"
-      href="manage_store" role="button">Done!</a></p>
+  </div>
 
-    </div>
+dashboard_detail: >
+  <div class="col-md-8">
+
+    <h1 style="color: #eee; font-size: 50px;">
+
+    <i class="fa [-*DETAIL_ICON*-] fa-3x"></i></h1>
+    <h2>[-*DETAIL_NAME*-]</h2>
+    [-*DETAILS*-]
+
+  </div>
 
 dashboard_footer: >
   </div>

@@ -82,6 +82,7 @@ include Contract
   end
 
   def apply_promotions(product, qty)
+    # Qty is used in the eval logic
     price, discount, promo_id = product.price, 0, product.promotion_id
     if promo_id.to_i > 0
       discount = eval( describe( "promotion", promo_id )["logic"] )

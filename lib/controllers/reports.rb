@@ -101,7 +101,7 @@ include Queries
   end
 
   def html_table_header(arr)
-    arr.map { |h| "<td><b>#{h}</b></td>" }.join
+    arr.map { |h| "<th><b>#{h}</b></th>" }.join
   end
 
   def html_table_rows(arr)
