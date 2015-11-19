@@ -1,12 +1,12 @@
 defaults:
   :max_daily_transactions: 800
-  :min_stock_per_item: 3
-  :max_stock_per_item: 47
+  :min_stock_per_item: 10
+  :max_stock_per_item: 99
   :unique_items: 100
   :vendors: 5
   :employees: 6
   :max_price: 100
-  :max_unique_per_sale: 5
+  :max_unique_per_sale: 15
   :db_name:
 
 promotions:

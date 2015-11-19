@@ -45,16 +45,13 @@ include UIAssembler
         when "/modal_run_sales"
           @store = SimStore.new( :db_name => request.query["db"] )
           @store.goto_next_day
-          page_content = @store.populate_transactions
-          page_content = "true"
+          page_content = "OK" if @store.populate_transactions
         when "/modal_add_stock"
           @store = SimStore.new( :db_name => request.query["db"] )
-          @store.add_stock
-          page_content = "true"
+          page_content = "OK" if @store.add_stock
         when "/modal_apply_promotions"
           @store = SimStore.new( :db_name => request.query["db"] )
-          @store.assign_promotions_to_products
-          page_content = "true"
+          page_content = "OK" if @store.assign_promotions_to_products
         else
           return not_found
         end
