@@ -24,7 +24,7 @@ store = Simstore.new         #=> Creates a new store instance
 store.populate_everything    #=> Builds all required lists, and simulates the first day's transactions
 ```
 #### Customized setup
-Construct and populate a store, overriding some of the default config options:
+Construct and populate a store, overriding some of the default config options
 ```
 store = Simstore.new( :max_daily_transactions => 200, :db_name => 'jeremy' )
 ```
@@ -33,13 +33,13 @@ In lieu of `populate_everything` you can (re-)populate lists individually for fu
 store.clean_table("employees") #=> Fire all existing employees
 store.populate_employees       #=> Get some new employees
 ```
-#### Run additional days' sales:
+#### Run additional days' sales
 ```
 store.add_stock               # Optional
 store.goto_next_day
 store.populate_transactions
 ```
-#### Setup promotions:
+#### Setup promotions
 Modify promotion logic in `config.yml`, then apply promotions to selected products. Next time you simulate sales for your store, promotion logic will be in effect for the selected products. Use one of these operations to apply promotions:
 ```
 store.assign_promotions_to_products            # Assign random promotions to 10% of products
