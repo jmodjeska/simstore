@@ -27,6 +27,12 @@ module UIAssembler
       ['Apply Promotions', 'apply_promotions']
     ]
   ]
+  ICONS = {
+    :employee => 'fa-user',
+    :vendor => 'fa-truck',
+    :product => 'fa-book',
+    :promotion => 'fa-tags'
+  }
 
   def side_nav_items
     side_nav = ""
@@ -55,9 +61,9 @@ module UIAssembler
 
   def get_report(report, start_date, end_date)
     options = {
-      :template => report,
+      :template   => report,
       :start_date => start_date,
-      :end_date => end_date
+      :end_date   => end_date
     }
     @store.set_report_options( options )
     finalize_assembly(1, report)
@@ -79,18 +85,18 @@ module UIAssembler
     return [false, content]
   end
 
-  def show_detail(type, id)
+  def show_detail(unit_type, id)
     options = {
-      :template => 'show_detail',
-      :describe => type,
-      :id => id
+      :template => 'detail_report',
+      :id       => id,
+      :var1     => unit_type
     }
     @store.set_report_options( options )
     content = @store.build_report
-    return [false, TEMPLATES['dashboard_detail']
-      .gsub( '[-*DETAIL_ICON*-]', ICON_TYPES[type] )
-      .gsub( '[-*DETAIL_NAME*-]', type.capitalize )
-      .gsub( '[-*DETAILS*-]', content )]
+    return TEMPLATES['dashboard_detail']
+      .gsub( '[-*DETAIL_ICON*-]', ICONS[unit_type.to_sym] )
+      .gsub( '[-*DETAIL_NAME*-]', unit_type.capitalize )
+      .gsub( '[-*DETAILS*-]', content )
   end
 
   def finalize_assembly(request_array, request_type)

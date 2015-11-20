@@ -21,6 +21,7 @@ include Queries
     @report_range = "#{@query_from.to_s[0..9]} to #{@query_from.to_s[0..9]}"
     @report_id    = ( options[:id].to_i == 0 ) ? nil : options[:id]
     @report_type  = options[:template]
+    @report_var1  = options[:var1]
   end
 
   def build_report
@@ -98,6 +99,20 @@ include Queries
         list_row[4] = ( "$%.2f" % list_row[4] )
       end
     replace_html('product', content)
+  end
+
+  def prepare_detail_report
+    content = describe( @report_var1, @report_id )
+    return html_p_list(content).join
+  end
+
+  def html_p_list(hash)
+    hash.map do |k, v|
+      if k == "price"
+        v = "$%.2f" % v
+      end
+      "<p>#{k}: <b>#{v}</b></p>"
+    end
   end
 
   def html_table_header(arr)

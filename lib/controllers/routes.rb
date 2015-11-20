@@ -91,6 +91,9 @@ include UIAssembler
             elsif request.query["sim"]
               err, sim_page = do_sim( request.query["sim"] )
               page_content += err ? error_message(err) : sim_page
+            elsif request.query["detail"] && request.query["id"]
+              page_content += show_detail( request.query["detail"],
+                request.query["id"] )
             else
               err, assembly = get_list( 'store_overview' )
               page_content += err ? error_message(err) : assembly
